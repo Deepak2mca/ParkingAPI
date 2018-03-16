@@ -1,36 +1,36 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ParkingService.Controllers;
+using ParkingService.Models;
 using System.Collections.Generic;
 
-namespace ParkingService.Models
+namespace ParkingService.Test
 {
-
-    public abstract class Entity
+    [TestClass]
+    public class Location
     {
-        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]        
-        public string _id { set; get; }
-    }
+        [TestMethod]
+        public void GetParkAreas()
+        {
+            LocationController parkcontroller = new LocationController();
+            var locations = parkcontroller.Get();
+        }
 
-    public class Loc
-    {
-        [BsonElement("type")]
-        public string type { get; set; }
-        [BsonElement("coordinates")]
-        public List<double> coordinates { get; set; }
-    }
+        [TestMethod]
+        public void GetParkAreasByLocation()
+        {
+            List<double> lst = new List<double>();
+            lst.Add(1.23222);
+            lst.Add(4.56222);
+            var loc = new Loc() { type = "point", coordinates = lst };
+            LocationController parkcontroller = new LocationController();
+            var locations = parkcontroller.Get(loc);
+        }
 
-    public class Location : Entity
-    {
-       
-        [BsonElement("name")]
-        public string name { get; set; }
-
-        [BsonElement("tspaces")]
-        public int tspaces { get; set; }
-        [BsonElement("aspaces")]
-        public int aspaces { get; set; }
-        [BsonElement("loc")]
-        public Loc loc { get; set; }
-        
+        [TestMethod]
+        public void AddLocation()
+        {
+            LocationController parkcontroller = new LocationController();
+            parkcontroller.AddLocation();
+        }
     }
 }
